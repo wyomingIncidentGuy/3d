@@ -16,7 +16,7 @@
         </ul>
       </nav>
       <div class="header-actions">
-        <button @click="">Войти</button>
+        <button>Войти</button>
       </div>
     </div>
   </header>
@@ -32,10 +32,15 @@
   .header-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    @media screen and (max-width: 1220px) {
+        max-width: none;
+        width: calc(100% - 40px);
+        padding: 0 20px;
+    }
 
     .header-logo {
       a {
