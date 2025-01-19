@@ -9,31 +9,38 @@
 
     const initScene = () => {
         const scene = new THREE.Scene()
-        const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000)
+        scene.background = new THREE.Color(0xffffff);
+        const camera = new THREE.PerspectiveCamera(60, 100 / 100, 0.1, 1000)
         const renderer = new THREE.WebGLRenderer()
-        renderer.setSize(80, 80)
+        renderer.setSize(100, 100)
 
         if(container.value !== null){
-            container.value.appendChild(renderer.domElement);
+            container.value.appendChild(renderer.domElement)
         }
 
-        const light = new THREE.AmbientLight(0x404040);
+        const light = new THREE.AmbientLight(0x404040)
         scene.add(light);
 
-        camera.position.z = 5;
+        const directionalLight = new THREE.DirectionalLight(0xB0E2FF, 1.5);
+        directionalLight.position.set(1, 1, 1).normalize();
+        scene.add(directionalLight);
 
-        const loader = new OBJLoader();
+        camera.position.set(40, 20, 2)
+        camera.lookAt(0, 0, 0)
+
+        const loader = new OBJLoader()
         loader.load(
             '/models/apparat.obj',
             (object) => {
-                scene.add(object);
-                object.position.set(0, 0, 0);
+                scene.add(object)
+                object.scale.set(0.1, 0.1, 0.1);
+                object.position.set(0, 0, 0)
             }
         );
 
         const animate = () => {
-            requestAnimationFrame(animate);
-            renderer.render(scene, camera);
+            requestAnimationFrame(animate)
+            renderer.render(scene, camera)
         }
 
         animate()
@@ -42,7 +49,10 @@
     onMounted(() => {
         if ( WebGL.isWebGL2Available() ) {
             isWebGl.value = true
-            initScene()
+
+            nextTick(() => {
+                initScene()
+            })
         }
     })
 </script>
@@ -50,7 +60,7 @@
 <template>
     <div class="model-viewer">
         <div v-if="isWebGl" ref="container" class="scene"></div>
-        <!-- <img v-else src="images/1.jpg" alt="установка"> -->
+        <img v-else src="/images/1.jpg" alt="установка">
     </div>
 </template>
 
@@ -58,8 +68,8 @@
    .model-viewer {
 
         & > .scene{
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             background-color: #f0f0f0;
             display: flex;
             justify-content: center;
